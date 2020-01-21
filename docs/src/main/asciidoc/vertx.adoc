@@ -50,7 +50,9 @@ Otherwise, you can manually add this to the dependencies section of your `pom.xm
 == Native Transport
 
 Vert.x is capable of using https://netty.io/wiki/native-transports.html[Netty's native transports] which offers
-performance improvements on certain platforms. To enable them you must include one or both of the following dependencies:
+performance improvements on certain platforms. To enable them you must include the appropriate dependency for your
+platform. It's usually a good idea to include both to keep your application platform agnostic. Netty is smart enough
+to use the correct one, that includes none at all on unsupported platforms:
 
 [source,xml]
 ----
@@ -66,8 +68,6 @@ performance improvements on certain platforms. To enable them you must include o
   <classifier>osx-x86_64</classifier>
 </dependency>
 ----
-
-Netty will ignore these transports on unsupported platforms.
 
 You will also have to explicitly configure Vertx to use the native transport. In `application.properties` add:
 
