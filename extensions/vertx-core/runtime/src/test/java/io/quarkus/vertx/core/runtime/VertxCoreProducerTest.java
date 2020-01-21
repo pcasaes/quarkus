@@ -61,7 +61,6 @@ public class VertxCoreProducerTest {
         configuration.workerPoolSize = 10;
         configuration.warningExceptionTime = Duration.ofSeconds(1);
         configuration.internalBlockingPoolSize = 5;
-        configuration.preferNativeTransport = false;
         VertxCoreRecorder.vertx = new VertxCoreRecorder.VertxSupplier(configuration);
         producer.initialize(VertxCoreRecorder.vertx);
         verifyProducer();
@@ -81,7 +80,6 @@ public class VertxCoreProducerTest {
         configuration.eventbus.connectTimeout = Duration.ofMinutes(1);
         configuration.eventbus.acceptBacklog = OptionalInt.empty();
         configuration.cluster = cc;
-        configuration.preferNativeTransport = false;
 
         try {
             VertxCoreRecorder.initialize(configuration);
