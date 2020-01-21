@@ -173,6 +173,8 @@ public class VertxCoreRecorder {
 
         options.setWarningExceptionTime(conf.warningExceptionTime.toNanos());
 
+        options.setPreferNativeTransport(conf.preferNativeTransport);
+
         return options;
     }
 

@@ -423,6 +423,10 @@ public class VertxHttpRecorder {
         serverOptions.setHost(httpConfiguration.host);
         serverOptions.setPort(httpConfiguration.determineSslPort(launchMode));
         serverOptions.setClientAuth(sslConfig.clientAuth);
+        serverOptions.setReusePort(httpConfiguration.soReusePort);
+        serverOptions.setTcpQuickAck(httpConfiguration.tcpQuickAck);
+        serverOptions.setTcpCork(httpConfiguration.tcpCork);
+        serverOptions.setTcpFastOpen(httpConfiguration.tcpFastOpen);
         return serverOptions;
     }
 
@@ -504,6 +508,10 @@ public class VertxHttpRecorder {
         setIdleTimeout(httpConfiguration, options);
         options.setMaxHeaderSize(httpConfiguration.limits.maxHeaderSize.asBigInteger().intValueExact());
         options.setWebsocketSubProtocols(websocketSubProtocols);
+        options.setReusePort(httpConfiguration.soReusePort);
+        options.setTcpQuickAck(httpConfiguration.tcpQuickAck);
+        options.setTcpCork(httpConfiguration.tcpCork);
+        options.setTcpFastOpen(httpConfiguration.tcpFastOpen);
         return options;
     }
 

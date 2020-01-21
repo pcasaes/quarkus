@@ -96,6 +96,30 @@ public class HttpConfiguration {
     @ConfigItem(name = "auth.session.encryption-key")
     public Optional<String> encryptionKey;
 
+    /**
+     * Enable socket reuse port
+     */
+    @ConfigItem(defaultValue = "false", name = "so-reuse-port")
+    public boolean soReusePort;
+
+    /**
+     * Enable tcp quick ack
+     */
+    @ConfigItem(defaultValue = "false", name = "tcp-quick-ack")
+    public boolean tcpQuickAck;
+
+    /**
+     * Enable tcp cork
+     */
+    @ConfigItem(defaultValue = "false", name = "tcp-cork")
+    public boolean tcpCork;
+
+    /**
+     * Enable tcp fast open
+     */
+    @ConfigItem(defaultValue = "false", name = "tcp-fast-open")
+    public boolean tcpFastOpen;
+
     public int determinePort(LaunchMode launchMode) {
         return launchMode == LaunchMode.TEST ? testPort : port;
     }
