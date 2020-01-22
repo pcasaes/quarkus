@@ -35,7 +35,7 @@ public class HttpConfiguration {
      * The HTTP host
      */
     @ConfigItem(defaultValue = "0.0.0.0")
-    public String host;
+    public Optional<String> host;
 
     /**
      * The HTTPS port
@@ -119,6 +119,12 @@ public class HttpConfiguration {
      */
     @ConfigItem(defaultValue = "false", name = "tcp-fast-open")
     public boolean tcpFastOpen;
+
+    /**
+     * Path to a domain socket to use in lieu of HOST with HTTP port
+     */
+    @ConfigItem(name = "domain-socket")
+    public Optional<String> domainSocket;
 
     public int determinePort(LaunchMode launchMode) {
         return launchMode == LaunchMode.TEST ? testPort : port;

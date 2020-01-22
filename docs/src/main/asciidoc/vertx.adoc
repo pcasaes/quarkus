@@ -47,7 +47,7 @@ Otherwise, you can manually add this to the dependencies section of your `pom.xm
 </dependency>
 ----
 
-== Native Transport
+=== Native Transport
 
 Vert.x is capable of using https://netty.io/wiki/native-transports.html[Netty's native transports] which offers
 performance improvements on certain platforms. To enable them you must include the appropriate dependency for your
@@ -505,6 +505,32 @@ Then, create the native executable with:
 ----
 ./mvnw package -Pnative
 ----
+
+== Listening to a Unix Domain Socket
+
+Listening on a unix domain socket allows us to dispense with the overhead of TCP
+if the connection to the server is established from the same host. This can happen
+if access to the service goes through a proxy which is often the case
+if you're setting up a service mesh with a proxy like Envoy.
+
+IMPORTANT: This will only work on platforms that support <<native-transport>>.
+
+To setup please enable the appropriate <<native-transport>> and set the following
+environment property:
+
+----
+quarkus.http.domain-socket=/var/run/quarkus-http.socket
+----
+
+By itself this will not disable the tcp socket which by default will open on
+`0.0.0.0:8080`. You can disable it by leaving the following environment property empty:
+
+----
+quarkus.http.host=
+----
+
+These properties can be set through Java's `-D` command line parameter or
+on `application.properties`.
 
 == Read only deployment environments
 
