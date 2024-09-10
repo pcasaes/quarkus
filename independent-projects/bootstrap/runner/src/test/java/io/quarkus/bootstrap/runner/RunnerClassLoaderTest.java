@@ -24,6 +24,10 @@ public class RunnerClassLoaderTest {
                 createProjectJarResource("empty-project-a-1.0.jar"), createProjectJarResource("empty-project-b-1.0.jar"),
                 createProjectJarResource("easy-project-1.0.jar") });
 
+        resourceDirectoryMap.put("org/evict", new ClassLoadingResource[] {
+                createProjectJarResource("empty-project-c-1.0.jar"), createProjectJarResource("empty-project-d-1.0.jar"),
+                createProjectJarResource("empty-project-e-1.0.jar"), createProjectJarResource("evict-project-1.0.jar") });
+
         resourceDirectoryMap.put("org/trivial", new ClassLoadingResource[] {
                 createProjectJarResource("trivial-project-1.0.jar") });
 
@@ -42,7 +46,7 @@ public class RunnerClassLoaderTest {
         // Now easy-project-1.0.jar is the least recently used jar in cache and the next to be evicted when a class
         // from a different jar will be requested
 
-        ExecutorService executor = Executors.newFixedThreadPool(2);
+        ExecutorService executor = Executors.newFixedThreadPool(5);
 
         Runnable evictingTask = () -> {
             try {
@@ -58,11 +62,19 @@ public class RunnerClassLoaderTest {
                 throw new RuntimeException(e);
             }
         };
+        Runnable evictingAgainTask = () -> {
+            try {
+                runnerClassLoader.loadClass("org.evict.EvictPojo");
+            } catch (ClassNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+        };
 
         // Concurrently executes the task evicting the jar and the one reopening it
         try {
             executor.submit(evictingTask);
             executor.submit(reloadingTask);
+            executor.submit(evictingAgainTask);
         } finally {
             executor.shutdown();
             executor.awaitTermination(1, TimeUnit.SECONDS);
